@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
-
 
 @Component({
   selector: 'app-zoom-range',
@@ -25,19 +24,31 @@ import * as mapboxgl from 'mapbox-gl';
     `
   ]
 })
-export class ZoomRangeComponent implements OnInit {
+export class ZoomRangeComponent implements AfterViewInit {
 
-  constructor() { }
+  @ViewChild('mapa') divMapa!: ElementRef;
+  mapa: mapboxgl.Map;
 
-  ngOnInit(): void {
+  constructor() {}
 
-    var map = new mapboxgl.Map({
-      container: 'mapa',
+  ngAfterViewInit(): void {
+
+    this.mapa = new mapboxgl.Map({
+      container: this.divMapa.nativeElement,
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [ -58.55167818147597, -34.65240183305607 ],
       zoom: 14
     });
-
   }
+
+  zoomIn() {
+    this.mapa.zoomIn();
+  }
+
+  zoomOut() {
+    this.mapa.zoomOut();
+  }
+
+
 
 }
